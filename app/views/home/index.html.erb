@@ -1,0 +1,28 @@
+<div id="home">
+  <h1>CRM Ruby</h1>
+  <p>顧客関係管理システムへようこそ</p>
+
+  <% if user_signed_in? %>
+    <div class="user-info">
+      <p>ログイン中: <%= current_user.email %></p>
+      <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+    </div>
+
+    <div class="menu">
+      <h2>メニュー</h2>
+      <ul>
+        <li><%= link_to "顧客管理", customers_path %></li>
+        <li><%= link_to "製品管理", products_path %></li>
+        <li><%= link_to "店舗管理", stores_path %></li>
+        <li><%= link_to "店員管理", staffs_path %></li>
+      </ul>
+    </div>
+  <% else %>
+    <div class="auth-links">
+      <p>システムにアクセスするにはログインしてください。</p>
+      <%= link_to "ログイン", new_user_session_path %>
+      |
+      <%= link_to "アカウント作成", new_user_registration_path %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,10 @@
+<div class="store-edit">
+  <h1>店舗編集</h1>
+
+  <%= render 'form', store: @store %>
+
+  <div class="actions">
+    <%= link_to "表示", @store, class: "btn btn-show" %>
+    <%= link_to "店舗一覧に戻る", stores_path, class: "btn btn-secondary" %>
+  </div>
+</div>

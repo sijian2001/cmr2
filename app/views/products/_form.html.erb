@@ -1,0 +1,56 @@
+<%= form_with(model: product, local: true) do |form| %>
+  <% if product.errors.any? %>
+    <div class="error-messages">
+      <h4><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h4>
+      <ul>
+        <% product.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name, "製品名" %>
+    <%= form.text_field :name, required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :category, "カテゴリ" %>
+    <%= form.text_field :category, required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :price, "価格" %>
+    <%= form.number_field :price, step: 0.01, min: 0, required: true %>
+    <small>円</small>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :sku, "SKU" %>
+    <%= form.text_field :sku, required: true %>
+    <small>商品管理コード（英数字）</small>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :stock_quantity, "在庫数" %>
+    <%= form.number_field :stock_quantity, min: 0, required: true %>
+    <small>個</small>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :description, "説明" %>
+    <%= form.text_area :description, rows: 4 %>
+  </div>
+
+  <div class="form-group">
+    <%= form.check_box :is_active %>
+    <%= form.label :is_active, "販売中" %>
+    <small>チェックを外すと販売停止になります</small>
+  </div>
+
+  <div class="form-actions">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "キャンセル", products_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>
