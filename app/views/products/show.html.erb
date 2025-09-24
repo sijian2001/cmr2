@@ -1,0 +1,67 @@
+<div class="product-show">
+  <h1>製品詳細</h1>
+
+  <div class="product-info">
+    <div class="info-row">
+      <label>製品名:</label>
+      <span><%= @product.name %></span>
+    </div>
+
+    <div class="info-row">
+      <label>カテゴリ:</label>
+      <span><%= @product.category %></span>
+    </div>
+
+    <div class="info-row">
+      <label>価格:</label>
+      <span class="price"><%= @product.formatted_price %></span>
+    </div>
+
+    <div class="info-row">
+      <label>SKU:</label>
+      <span><%= @product.sku %></span>
+    </div>
+
+    <div class="info-row">
+      <label>在庫数:</label>
+      <span class="stock-quantity"><%= @product.stock_quantity %>個</span>
+    </div>
+
+    <div class="info-row">
+      <label>在庫状態:</label>
+      <span class="stock-status stock-status-<%= @product.stock_quantity > 5 ? 'good' : @product.stock_quantity > 0 ? 'low' : 'out' %>">
+        <%= @product.stock_status %>
+      </span>
+    </div>
+
+    <div class="info-row">
+      <label>販売状態:</label>
+      <span class="status status-<%= @product.is_active? ? 'active' : 'inactive' %>">
+        <%= @product.status_text %>
+      </span>
+    </div>
+
+    <div class="info-row">
+      <label>説明:</label>
+      <span><%= simple_format(@product.description) %></span>
+    </div>
+
+    <div class="info-row">
+      <label>登録日:</label>
+      <span><%= @product.created_at.strftime("%Y年%m月%d日 %H:%M") %></span>
+    </div>
+
+    <div class="info-row">
+      <label>更新日:</label>
+      <span><%= @product.updated_at.strftime("%Y年%m月%d日 %H:%M") %></span>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= link_to "編集", edit_product_path(@product), class: "btn btn-primary" %>
+    <%= link_to "削除", @product, method: :delete,
+        data: { confirm: "本当に削除しますか？" },
+        class: "btn btn-danger" %>
+    <%= link_to "製品一覧に戻る", products_path, class: "btn btn-secondary" %>
+  </div>
+</div>

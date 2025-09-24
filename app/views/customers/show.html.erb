@@ -1,0 +1,53 @@
+<div class="customer-show">
+  <h1>顧客詳細</h1>
+
+  <div class="customer-info">
+    <div class="info-row">
+      <label>名前:</label>
+      <span><%= @customer.name %></span>
+    </div>
+
+    <div class="info-row">
+      <label>メール:</label>
+      <span><%= @customer.email %></span>
+    </div>
+
+    <div class="info-row">
+      <label>電話番号:</label>
+      <span><%= @customer.phone %></span>
+    </div>
+
+    <div class="info-row">
+      <label>住所:</label>
+      <span><%= simple_format(@customer.address) %></span>
+    </div>
+
+    <div class="info-row">
+      <label>会社名:</label>
+      <span><%= @customer.company %></span>
+    </div>
+
+    <div class="info-row">
+      <label>メモ:</label>
+      <span><%= simple_format(@customer.notes) %></span>
+    </div>
+
+    <div class="info-row">
+      <label>登録日:</label>
+      <span><%= @customer.created_at.strftime("%Y年%m月%d日 %H:%M") %></span>
+    </div>
+
+    <div class="info-row">
+      <label>更新日:</label>
+      <span><%= @customer.updated_at.strftime("%Y年%m月%d日 %H:%M") %></span>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= link_to "編集", edit_customer_path(@customer), class: "btn btn-primary" %>
+    <%= link_to "削除", @customer, method: :delete,
+        data: { confirm: "本当に削除しますか？" },
+        class: "btn btn-danger" %>
+    <%= link_to "顧客一覧に戻る", customers_path, class: "btn btn-secondary" %>
+  </div>
+</div>

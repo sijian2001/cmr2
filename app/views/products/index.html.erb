@@ -1,0 +1,86 @@
+<div class="products-index">
+  <h1>製品管理</h1>
+
+  <div class="actions">
+    <%= link_to "新規製品登録", new_product_path, class: "btn btn-primary" %>
+    <%= link_to "ホームに戻る", root_path, class: "btn btn-secondary" %>
+  </div>
+
+  <div class="search-form">
+    <%= form_with url: products_path, method: :get, local: true do |form| %>
+      <div class="search-fields">
+        <%= form.text_field :search_name, placeholder: "製品名で検索", value: params[:search_name] %>
+        <%= form.text_field :search_category, placeholder: "カテゴリで検索", value: params[:search_category] %>
+        <%= form.text_field :search_sku, placeholder: "SKUで検索", value: params[:search_sku] %>
+
+        <%= form.select :stock_filter,
+            options_for_select([
+              ["在庫状態", ""],
+              ["在庫あり", "in_stock"],
+              ["在庫切れ", "out_of_stock"]
+            ], params[:stock_filter]),
+            {}, { class: "select-filter" } %>
+
+        <%= form.select :status_filter,
+            options_for_select([
+              ["販売状態", ""],
+              ["販売中", "active"],
+              ["販売停止", "inactive"]
+            ], params[:status_filter]),
+            {}, { class: "select-filter" } %>
+
+        <%= form.submit "検索", class: "btn btn-search" %>
+        <%= link_to "クリア", products_path, class: "btn btn-clear" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="products-table">
+    <% if @products.any? %>
+      <table>
+        <thead>
+          <tr>
+            <th>製品名</th>
+            <th>カテゴリ</th>
+            <th>価格</th>
+            <th>SKU</th>
+            <th>在庫数</th>
+            <th>在庫状態</th>
+            <th>販売状態</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @products.each do |product| %>
+            <tr>
+              <td><%= link_to product.name, product, class: "product-link" %></td>
+              <td><%= product.category %></td>
+              <td><%= product.formatted_price %></td>
+              <td><%= product.sku %></td>
+              <td><%= product.stock_quantity %></td>
+              <td class="stock-status-<%= product.stock_quantity > 5 ? 'good' : product.stock_quantity > 0 ? 'low' : 'out' %>">
+                <%= product.stock_status %>
+              </td>
+              <td class="status-<%= product.is_active? ? 'active' : 'inactive' %>">
+                <%= product.status_text %>
+              </td>
+              <td class="actions">
+                <%= link_to "表示", product, class: "btn btn-show" %>
+                <%= link_to "編集", edit_product_path(product), class: "btn btn-edit" %>
+                <%= link_to "削除", product, method: :delete,
+                    data: { confirm: "本当に削除しますか？" },
+                    class: "btn btn-delete" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="no-products">製品が見つかりませんでした。</p>
+    <% end %>
+  </div>
+
+  <div class="summary">
+    <p>合計: <%= @products.count %>件</p>
+  </div>
+</div>

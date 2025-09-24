@@ -1,0 +1,10 @@
+<div class="staff-edit">
+  <h1>店員編集</h1>
+
+  <%= render 'form', staff: @staff %>
+
+  <div class="actions">
+    <%= link_to "表示", @staff, class: "btn btn-show" %>
+    <%= link_to "店員一覧に戻る", staffs_path, class: "btn btn-secondary" %>
+  </div>
+</div>

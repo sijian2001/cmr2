@@ -1,0 +1,69 @@
+<%= form_with(model: staff, local: true) do |form| %>
+  <% if staff.errors.any? %>
+    <div class="error-messages">
+      <h4><%= pluralize(staff.errors.count, "個のエラー") %>があります:</h4>
+      <ul>
+        <% staff.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name, "氏名" %>
+    <%= form.text_field :name, required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :employee_id, "社員ID" %>
+    <%= form.text_field :employee_id, required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :position, "職位" %>
+    <%= form.text_field :position, required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :department, "部署" %>
+    <%= form.text_field :department %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :store_id, "所属店舗" %>
+    <%= form.select :store_id,
+        options_from_collection_for_select(@stores, :id, :name, staff.store_id),
+        { prompt: "店舗を選択してください" }, { required: true } %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :email, "メールアドレス" %>
+    <%= form.email_field :email %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :phone, "電話番号" %>
+    <%= form.telephone_field :phone %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :hire_date, "入社日" %>
+    <%= form.date_field :hire_date, required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :salary, "給与" %>
+    <%= form.number_field :salary, step: 1, required: true %>
+  </div>
+
+  <div class="form-group checkbox-group">
+    <%= form.check_box :is_active %>
+    <%= form.label :is_active, "在籍中" %>
+  </div>
+
+  <div class="form-actions">
+    <%= form.submit staff.persisted? ? "更新" : "登録", class: "btn btn-primary" %>
+    <%= link_to "キャンセル", staff.persisted? ? staff : staffs_path, class: "btn btn-cancel" %>
+  </div>
+<% end %>

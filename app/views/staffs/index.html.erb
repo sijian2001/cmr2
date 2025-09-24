@@ -1,0 +1,89 @@
+<div class="staffs-index">
+  <h1>店員管理</h1>
+
+  <div class="actions">
+    <%= link_to "新規店員登録", new_staff_path, class: "btn btn-primary" %>
+    <%= link_to "ホームに戻る", root_path, class: "btn btn-secondary" %>
+  </div>
+
+  <div class="search-form">
+    <%= form_with url: staffs_path, method: :get, local: true do |form| %>
+      <div class="search-fields">
+        <%= form.text_field :search_name, placeholder: "氏名で検索", value: params[:search_name] %>
+        <%= form.text_field :search_employee_id, placeholder: "社員IDで検索", value: params[:search_employee_id] %>
+        <%= form.text_field :search_position, placeholder: "職位で検索", value: params[:search_position] %>
+        <%= form.text_field :search_department, placeholder: "部署で検索", value: params[:search_department] %>
+
+        <%= form.select :store_filter,
+            options_from_collection_for_select(@stores, :id, :name, params[:store_filter]),
+            { prompt: "店舗を選択" }, { class: "select-filter" } %>
+
+        <%= form.select :status_filter,
+            options_for_select([
+              ["在籍状況", ""],
+              ["在籍中", "active"],
+              ["退職済", "inactive"]
+            ], params[:status_filter]),
+            {}, { class: "select-filter" } %>
+
+        <%= form.submit "検索", class: "btn btn-search" %>
+        <%= link_to "クリア", staffs_path, class: "btn btn-clear" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="staffs-table">
+    <% if @staffs.any? %>
+      <table>
+        <thead>
+          <tr>
+            <th>氏名</th>
+            <th>社員ID</th>
+            <th>職位</th>
+            <th>部署</th>
+            <th>所属店舗</th>
+            <th>入社日</th>
+            <th>給与</th>
+            <th>在籍状況</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @staffs.each do |staff| %>
+            <tr>
+              <td><%= link_to staff.name, staff, class: "staff-link" %></td>
+              <td><%= staff.employee_id %></td>
+              <td><%= staff.position %></td>
+              <td><%= staff.department %></td>
+              <td><%= link_to staff.store.name, staff.store if staff.store %></td>
+              <td><%= staff.hire_date.strftime("%Y年%m月%d日") if staff.hire_date %></td>
+              <td><%= staff.formatted_salary %></td>
+              <td class="status-<%= staff.is_active? ? 'active' : 'inactive' %>">
+                <%= staff.status_text %>
+              </td>
+              <td class="actions">
+                <%= link_to "表示", staff, class: "btn btn-show" %>
+                <%= link_to "編集", edit_staff_path(staff), class: "btn btn-edit" %>
+                <%= link_to "削除", staff, method: :delete,
+                    data: { confirm: "本当に削除しますか？" },
+                    class: "btn btn-delete" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="no-staffs">店員が見つかりませんでした。</p>
+    <% end %>
+  </div>
+
+  <div class="summary">
+    <p>合計: <%= @staffs.count %>名</p>
+    <% if @staffs.any? %>
+      <p>
+        在籍中: <%= @staffs.active.count %>名 |
+        退職済: <%= @staffs.inactive.count %>名
+      </p>
+    <% end %>
+  </div>
+</div>

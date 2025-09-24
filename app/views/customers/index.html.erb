@@ -1,0 +1,59 @@
+<div class="customers-index">
+  <h1>顧客管理</h1>
+
+  <div class="actions">
+    <%= link_to "新規顧客登録", new_customer_path, class: "btn btn-primary" %>
+    <%= link_to "ホームに戻る", root_path, class: "btn btn-secondary" %>
+  </div>
+
+  <div class="search-form">
+    <%= form_with url: customers_path, method: :get, local: true do |form| %>
+      <div class="search-fields">
+        <%= form.text_field :search_name, placeholder: "名前で検索", value: params[:search_name] %>
+        <%= form.text_field :search_email, placeholder: "メールで検索", value: params[:search_email] %>
+        <%= form.text_field :search_company, placeholder: "会社名で検索", value: params[:search_company] %>
+        <%= form.submit "検索", class: "btn btn-search" %>
+        <%= link_to "クリア", customers_path, class: "btn btn-clear" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="customers-table">
+    <% if @customers.any? %>
+      <table>
+        <thead>
+          <tr>
+            <th>名前</th>
+            <th>メール</th>
+            <th>電話番号</th>
+            <th>会社名</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @customers.each do |customer| %>
+            <tr>
+              <td><%= link_to customer.name, customer, class: "customer-link" %></td>
+              <td><%= customer.email %></td>
+              <td><%= customer.phone %></td>
+              <td><%= customer.company %></td>
+              <td class="actions">
+                <%= link_to "表示", customer, class: "btn btn-show" %>
+                <%= link_to "編集", edit_customer_path(customer), class: "btn btn-edit" %>
+                <%= link_to "削除", customer, method: :delete,
+                    data: { confirm: "本当に削除しますか？" },
+                    class: "btn btn-delete" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="no-customers">顧客が見つかりませんでした。</p>
+    <% end %>
+  </div>
+
+  <div class="summary">
+    <p>合計: <%= @customers.count %>件</p>
+  </div>
+</div>
