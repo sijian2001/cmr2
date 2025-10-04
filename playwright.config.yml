@@ -1,0 +1,18 @@
+# Playwright Configuration for CRM Ruby Application
+
+# Browser settings
+browsers:
+  - chromium
+
+# Test settings
+timeout: 30000  # 30 seconds timeout for each test
+headless: true  # Run in headless mode by default
+
+# Screenshot settings
+screenshot_on_failure: true
+
+# Video settings
+record_video: false
+
+# Base URL for tests
+base_url: http://localhost:3000
