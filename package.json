@@ -1,0 +1,12 @@
+{
+  "name": "crm_ruby",
+  "version": "1.0.0",
+  "description": "CRM Ruby Application",
+  "private": true,
+  "scripts": {
+    "test:e2e": "rails test:e2e"
+  },
+  "devDependencies": {
+    "playwright": "^1.48.0"
+  }
+}
